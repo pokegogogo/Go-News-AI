@@ -1,11 +1,10 @@
 name: Update Pokemon News
 
 on:
+  workflow_dispatch
 
-  workflow_dispatch:
-
-  schedule:
-    - cron: "0 */6 * * *"
+permissions:
+  contents: write
 
 jobs:
 
@@ -16,10 +15,7 @@ jobs:
     steps:
 
       - name: Checkout
-      - uses: actions/checkout@v4
-with:
-    persist-credentials: true
-
+        uses: actions/checkout@v4
 
       - name: Create News
         run: |
@@ -27,24 +23,22 @@ with:
           cat > news.json << 'EOF'
           [
             {
-              "title":"🚨 Pokémon GO自動更新測試",
+              "title":"🚨 測試成功",
               "date":"2026-10-19",
               "rating":"★★★★★",
-              "summary":"GitHub Actions運作成功"
+              "summary":"GitHub Actions 已成功運行"
             }
           ]
           EOF
 
       - name: Commit Changes
-
         run: |
 
           git config user.name "github-actions"
-
           git config user.email "github-actions@github.com"
 
           git add news.json
 
           git commit -m "Auto update news" || echo "No changes"
 
-          git push
+          git push origin main
