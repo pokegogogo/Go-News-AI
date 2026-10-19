@@ -79,21 +79,53 @@ text-decoration:none;
 
 <div class="card">
 
-<h2>最新活動</h2>
+<h2>最新消息</h2>
 
-<p>
-
-🎃 萬聖節活動
-
-</p>
-
-<p>
-
-AI評分：★★★★★
-
-</p>
+<div id="news">
+載入中...
+</div>
 
 </div>
+<script>
+
+async function loadNews() {
+
+const response = await fetch('./news.json');
+
+const data = await response.json();
+
+let html = '';
+
+data.forEach(item => {
+
+html += `
+<div style="
+margin-top:15px;
+padding:10px;
+border-bottom:1px solid #ddd;
+">
+
+<h3>${item.title}</h3>
+
+<p>${item.date}</p>
+
+<p>${item.summary}</p>
+
+<p>AI評分：${item.rating}</p>
+
+</div>
+`;
+
+});
+
+document.getElementById('news').innerHTML = html;
+
+}
+
+loadNews();
+
+</script>
+
 
 </body>
 
