@@ -192,6 +192,39 @@ text-align:center;
 padding:20px;
 
 }
+.news-item{
+
+padding:15px;
+
+margin-top:15px;
+
+background:#fafafa;
+
+border-left:5px solid #2563eb;
+
+border-radius:12px;
+
+}
+
+.date{
+
+font-size:14px;
+
+color:#666;
+
+margin-top:8px;
+
+}
+
+.rating{
+
+color:#f59e0b;
+
+font-weight:bold;
+
+margin-top:10px;
+
+}
 
 </style>
 
@@ -314,39 +347,33 @@ await fetch('./news.json?v=' + Date.now());
 const data =
 await response.json();
 
-let html='';
+let html = '';
 
-data.forEach(item=>{
+data.forEach(item => {
 
 html += `
 
 <div class="news-item">
 
-<h3>
+<h3>${item.title}</h3>
 
-${item.title}
-
-</h3>
-
-<div class="date">
-
+<p class="date">
 📅 ${item.date}
-
-</div>
-
-<p>
-
-${item.summary}
-
 </p>
 
-<br>
+<p>
+${item.summary}
+</p>
 
-<div class="rating">
-
+<p class="rating">
 ⭐ ${item.rating}
+</p>
 
-</div>
+${item.ai ? `
+<p>
+🤖 ${item.ai}
+</p>
+` : ''}
 
 </div>
 
@@ -354,18 +381,16 @@ ${item.summary}
 
 });
 
-document.getElementById(
-'news'
-).innerHTML = html;
+document.getElementById('news')
+.innerHTML = html;
 
 }
 
 catch(error){
 
-document.getElementById(
-'news'
-).innerHTML =
-'❌ 無法載入消息';
+document.getElementById('news')
+.innerHTML =
+'❌ 無法載入最新消息';
 
 }
 
@@ -374,6 +399,7 @@ document.getElementById(
 loadNews();
 
 </script>
+
 
 </body>
 
