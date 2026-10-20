@@ -1,44 +1,196 @@
 <!DOCTYPE html>
 <html lang="zh-HK">
+
 <head>
 
-<meta charset="utf-8">
+<meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>GO速報 AI</title>
 
+<meta name="theme-color"
+content="#2563eb">
+
 <style>
 
-body{
-font-family:Arial;
-background:#f5f5f5;
+*{
 margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+
+font-family:
+-apple-system,
+BlinkMacSystemFont,
+Arial,
+sans-serif;
+
+background:#f3f4f6;
+
+color:#222;
+
 }
 
 .header{
-background:#2563eb;
+
+background:
+linear-gradient(
+135deg,
+#2563eb,
+#7c3aed
+);
+
 color:white;
-padding:20px;
+
+padding:30px;
+
 text-align:center;
+
+}
+
+.header h1{
+
+font-size:32px;
+
+margin-bottom:10px;
+
+}
+
+.header p{
+
+opacity:.9;
+
+}
+
+.container{
+
+max-width:900px;
+
+margin:auto;
+
+padding:15px;
+
 }
 
 .card{
+
 background:white;
-margin:15px;
+
+padding:18px;
+
+border-radius:16px;
+
+margin-bottom:15px;
+
+box-shadow:
+0 2px 8px rgba(0,0,0,.1);
+
+}
+
+.news-item{
+
 padding:15px;
+
+margin-top:15px;
+
+background:#fafafa;
+
+border-left:5px solid #2563eb;
+
 border-radius:12px;
-box-shadow:0 2px 8px rgba(0,0,0,.1);
+
+}
+
+.news-item h3{
+
+margin-bottom:8px;
+
+}
+
+.rating{
+
+color:#f59e0b;
+
+font-weight:bold;
+
+font-size:18px;
+
+}
+
+.date{
+
+font-size:14px;
+
+color:#666;
+
+margin-bottom:8px;
+
+}
+
+.badge{
+
+display:inline-block;
+
+background:#dbeafe;
+
+color:#1d4ed8;
+
+padding:4px 10px;
+
+border-radius:999px;
+
+font-size:12px;
+
+margin-bottom:10px;
+
 }
 
 .button{
-background:#2563eb;
-color:white;
-padding:10px;
+
 display:block;
+
+background:#2563eb;
+
+color:white;
+
+padding:12px;
+
 text-align:center;
-border-radius:8px;
+
+border-radius:10px;
+
 text-decoration:none;
+
+font-weight:bold;
+
+margin-top:10px;
+
+}
+
+.footer{
+
+text-align:center;
+
+padding:30px;
+
+font-size:12px;
+
+color:#666;
+
+}
+
+.loading{
+
+color:#888;
+
+text-align:center;
+
+padding:20px;
+
 }
 
 </style>
@@ -51,25 +203,33 @@ text-decoration:none;
 
 <h1>🚨 GO速報 AI</h1>
 
-<p>Pokémon GO 即時情報站</p>
+<p>
+Pokémon GO 官方即時情報站
+</p>
 
 </div>
 
+<div class="container">
+
 <div class="card">
+
+<div class="badge">
+即時資訊
+</div>
 
 <h2>歡迎使用</h2>
 
+<br>
+
 <p>
 
-這裡將會顯示：
+✅ 官方活動<br><br>
 
-✅ 官方活動
+✅ 團體戰頭目<br><br>
 
-✅ 團體戰頭目
+✅ 社群日消息<br><br>
 
-✅ 社群日
-
-✅ GO Fest
+✅ GO Fest消息<br><br>
 
 ✅ AI重點摘要
 
@@ -79,53 +239,141 @@ text-decoration:none;
 
 <div class="card">
 
-<h2>最新消息</h2>
+<div class="badge">
+最新消息
+</div>
+
+<h2>
+🔥 Pokémon GO 官方快訊
+</h2>
 
 <div id="news">
-載入中...
+
+<div class="loading">
+載入最新消息中...
 </div>
 
 </div>
+
+</div>
+
+<div class="card">
+
+<div class="badge">
+即將推出
+</div>
+
+<h2>🤖 AI功能</h2>
+
+<br>
+
+<p>
+
+✅ AI活動評分<br><br>
+
+✅ 必抓寶可夢推薦<br><br>
+
+✅ 必打團體戰分析<br><br>
+
+✅ 活動重點摘要<br><br>
+
+✅ Discord 推播通知
+
+</p>
+
+</div>
+
+<a
+class="button"
+href="https://pokemongolive.com"
+target="_blank">
+
+查看官方網站
+
+</a>
+
+</div>
+
+<div class="footer">
+
+GO速報 AI<br>
+
+Powered by GitHub Pages
+
+</div>
+
 <script>
 
-async function loadNews() {
+async function loadNews(){
 
-const response = await fetch('./news.json');
+try{
 
-const data = await response.json();
+const response =
+await fetch('./news.json?v=' + Date.now());
 
-let html = '';
+const data =
+await response.json();
 
-data.forEach(item => {
+let html='';
+
+data.forEach(item=>{
 
 html += `
-<div style="
-margin-top:15px;
-padding:10px;
-border-bottom:1px solid #ddd;
-">
 
-<h3>${item.title}</h3>
+<div class="news-item">
 
-<p>${item.date}</p>
+<h3>
 
-<p>${item.summary}</p>
+${item.title}
 
-<p>AI評分：${item.rating}</p>
+</h3>
+
+<div class="date">
+
+📅 ${item.date}
 
 </div>
+
+<p>
+
+${item.summary}
+
+</p>
+
+<br>
+
+<div class="rating">
+
+⭐ ${item.rating}
+
+</div>
+
+</div>
+
 `;
 
 });
 
-document.getElementById('news').innerHTML = html;
+document.getElementById(
+'news'
+).innerHTML = html;
+
+}
+
+catch(error){
+
+document.getElementById(
+'news'
+).innerHTML =
+'❌ 無法載入消息';
+
+}
 
 }
 
 loadNews();
 
 </script>
-
 
 </body>
 
