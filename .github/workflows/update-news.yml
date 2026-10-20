@@ -1,12 +1,17 @@
 name: Update Pokemon News
 
 on:
-  workflow_dispatch
+
+  workflow_dispatch:
+
+  schedule:
+    - cron: '0 */6 * * *'
 
 permissions:
   contents: write
 
 jobs:
+
   update-news:
 
     runs-on: ubuntu-latest
@@ -16,22 +21,28 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Create News
+      - name: Setup Python
+        uses: actions/setup-python@v5
+
+        with:
+          python-version: '3.11'
+
+      - name: Install Packages
         run: |
-          cat > news.json << 'EOF'
-          [
-            {
-              "title":"🚨 測試成功",
-              "date":"2026-10-19",
-              "rating":"★★★★★",
-              "summary":"GitHub Actions 已成功運行"
-            }
-          ]
-          EOF
+
+          pip install requests
+          pip install beautifulsoup4
+
+      - name: Update News
+        run: |
+
+          python scripts/update_news.py
 
       - name: Commit Changes
         run: |
+
           git config user.name "github-actions"
+
           git config user.email "github-actions@github.com"
 
           git add news.json
